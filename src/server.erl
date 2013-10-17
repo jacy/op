@@ -43,8 +43,8 @@
          }).
 
 -record(client, {
-          server = none,
-          player = none
+          server = none,  % server process id.
+          player = none   % vistor or player.
          }).
 
 start([Port, Host]) 
@@ -323,13 +323,13 @@ start_games([]) ->
     ok;
 
 start_games([Game|Rest]) ->
-    start_games(Game, Game#tab_game_config.max),
+    start_game(Game, Game#tab_game_config.max),
     start_games(Rest).
 
-start_games(_Game, 0) ->
+start_game(_Game, 0) ->
     ok;
 
-start_games(Game, N) ->
+start_game(Game, N) ->
     g:make(_ = #start_game{ 
              type = Game#tab_game_config.type, 
              limit = Game#tab_game_config.limit, 
@@ -337,7 +337,7 @@ start_games(Game, N) ->
              player_timeout = Game#tab_game_config.player_timeout,
              seat_count = Game#tab_game_config.seat_count
             }),
-    start_games(Game, N - 1).
+    start_game(Game, N - 1).
 
 kill_games() ->
     {atomic, Games} = db:find(tab_game_xref),

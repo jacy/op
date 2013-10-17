@@ -51,7 +51,8 @@ start(Nick)
     case db:index_read(tab_player_info, Nick, #tab_player_info.nick) of
         [Info] ->
             PID = Info#tab_player_info.pid,
-            gen_server:start({global, {player, PID}}, player, [PID], []);
+			%% retrive back by global:whereis_name({player, PID}). 
+            gen_server:start({global, {player, PID}}, player, [PID], []); 
         Any ->
             {error, Any}
     end.

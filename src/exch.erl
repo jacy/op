@@ -37,7 +37,7 @@
 -include("test.hrl").
 
 -record(exch, {
-          parent,
+          parent, % server process id.
           data,
           note,
           %% fsm 
@@ -94,7 +94,7 @@ init(Args = [Parent|_]) ->
      },
     case init(Exch, Start) of
         {stop, _, Exch1} ->
-            {stop, Exch1};
+            {stop, Exch1};  % stop gen_server
         {noreply, Exch1} ->
             {ok, Exch1}
     end.
@@ -124,9 +124,11 @@ code_change(_OldVsn, Exch, _Extra) ->
     {ok, Exch}.
 
 process_call(Event, Exch) ->
+	io:format("exch got Call event:~w~n",[Event]),
     Cbk:call(Event, Exch#exch.data).
 
-process_cast(Event, Exch) ->   
+process_cast(Event, Exch) ->
+	io:format("exch got Cast event:~w~n",[Event]),
     {Mod, _} = hd(Exch#exch.stack),
     State = Exch#exch.state,
     Data = Exch#exch.data,
@@ -136,8 +138,8 @@ process_cast(Event, Exch) ->
 
 init(Exch = #exch{ stack = [{Mod, Params}|_] }, Event) ->
     Ctx = Exch#exch.ctx,
+    Result = Mod:start(Exch#exch.data, Ctx, Params),
     Exch1 = Exch#exch{ orig_ctx = Ctx, state = none },
-    Result = Mod:start(Exch1#exch.data, Ctx, Params),
     advance(Exch1, Event, Result).
 
 advance(Exch = #exch{}, _, {next, State, Data, Ctx}) ->

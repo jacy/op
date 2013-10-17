@@ -132,7 +132,7 @@ change_state(Game, Player, State) ->
 store_game_info(GID, R) ->
     Game = #tab_game_xref {
       gid = GID,
-      process = self(),
+      process = self(),  % global:whereis_name({game,GID}).
       type = R#start_game.type, 
       limit = R#start_game.limit,
       table_name = R#start_game.table_name,

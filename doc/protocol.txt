@@ -231,17 +231,14 @@ ERROR: See bottom of this document for the list of error codes.
 GAME_INFO: 
 
 Game summary information. The server will send one message per game running. 
-
 G.Type: Game type. Currently 1 for Texas Hold'em.
 L.Type: Limit type. Currently 1 for fixed limit, 2 for no limit and 3 for pot limit.
-#Seats: Number of players required to start the game, the number of seats.
-Joined: Number of players joined.
-Waiting: Number of players on the wait list.
 
-0    1     5        6        7        8         9       10     14      18
-+----+-----+--------+--------+--------+---------+--------+------+-------+
-| 18 | GID | G.Type | #Seats | Joined | Waiting | L.Type | Low$ | High$ |
-+----+-----+--------+--------+--------+---------+--------+------+-------+
+
+0    1     5        N       N+1      N+2       N+6      N+10        N+14               N+18             N+22             N+26
++----+-----+--------+--------+--------+---------+--------+-----------+------------------+----------------+----------------+
+| 18 | GID | G.Name | G.Type | L.Type | Low$    | High$  | SeatCount | Required players | Joined players |Waiting players |
++----+-----+--------+--------+--------+---------+--------+-----------+------------------+----------------+----------------+
 
 PLAYER_INFO:
 
