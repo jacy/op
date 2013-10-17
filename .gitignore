@@ -7,3 +7,4 @@ erl_crash.dump
 /.settings/
 /Mnesia.ujacy@ujacy/
 /include/
+/ebin/
