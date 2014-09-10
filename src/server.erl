@@ -187,12 +187,12 @@ code_change(_OldVsn, Server, _Extra) ->
 process_login(Client, Socket, Nick, Pass) ->
     case login:login(Nick, Pass, self()) of
         {error, Error} ->
-			io:format("========Login Failed: ~w~n", [Error]),
+%% 			io:format("========Login Failed: ~w~n", [Error]),
             ok = ?tcpsend(Socket, #bad{ cmd = ?CMD_LOGIN, error = Error}),
             Client;
         {ok, Player} ->
             %% disconnect visitor
-			io:format("========Login Success======player:~w~n", [Player]),
+%% 			io:format("========Login Success======player:~w~n", [Player]),
             if
                 Client#client.player /= none ->
                     gen_server:cast(Client#client.player, 'DISCONNECT');
@@ -200,7 +200,7 @@ process_login(Client, Socket, Nick, Pass) ->
                     ok
             end,
             PID = gen_server:call(Player, 'ID'),
-			io:format("========Send back to client with PId: ~w~n", [PID]),
+%% 			io:format("========Send back to client with PId: ~w~n", [PID]),
             ok = ?tcpsend(Socket, #you_are{ player = PID }),
             Client#client{ player = Player }
     end.
@@ -254,7 +254,7 @@ process_event(Client, _Socket, Event) ->
 parse_packet(Socket, Client) ->
     receive
         {tcp, Socket, Bin} ->
-            io:format("**********Receive package:~p~n", [Bin]),
+%%             io:format("**********Receive package:~p~n", [Bin]),
             gen_server:cast(Client#client.server, {'BUMP', size(Bin)}),
             Client1 = case catch pp:read(Bin) of
                           {'EXIT', Error} ->

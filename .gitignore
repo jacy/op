@@ -8,3 +8,5 @@ erl_crash.dump
 /Mnesia.ujacy@ujacy/
 /include/
 /ebin/
+/Mnesia.dmb@ujacy/
+/Mnesia.op_origin@ujacy/

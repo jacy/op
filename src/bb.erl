@@ -22,7 +22,7 @@
 -behaviour(gen_server).
 
 %%% 
-%%% Bot launcher 
+%%% Bot launcher 机器人
 %%%
 
 -compile([export_all]).
